@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using static Godot.GD;
 
 public partial class player : Area2D
 {
@@ -54,16 +55,16 @@ public partial class player : Area2D
             y: Mathf.Clamp(Position.Y, 0, _screenSize.Y)
         );
 
-        if (velocity.X < 0)
-        {
-            animatedSprite.Animation = "right";
-            animatedSprite.FlipH = true;
-            animatedSprite.FlipV = velocity.X > 0;
-        }
-        else if(velocity.X > 0)
+        if (velocity.X > 0)
         {
             animatedSprite.Animation = "left";
+            animatedSprite.FlipH = true;
             animatedSprite.FlipV = velocity.X < 0;
+        }
+        else if(velocity.X < 0)
+        {
+            animatedSprite.Animation = "right";
+            animatedSprite.FlipV = velocity.X > 0;
         }
         else if(velocity.Y < 0)
         {

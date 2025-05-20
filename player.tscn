@@ -320,9 +320,10 @@ script = ExtResource("1_onrkg")
 metadata/_edit_group_ = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(1, 0)
 scale = Vector2(1.5, 1.5)
 sprite_frames = SubResource("SpriteFrames_ivps1")
-animation = &"idle"
+animation = &"right"
 autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
