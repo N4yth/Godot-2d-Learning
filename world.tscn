@@ -1,9 +1,10 @@
-[gd_scene load_steps=55 format=4 uid="uid://bxvm61gf02dsb"]
+[gd_scene load_steps=64 format=4 uid="uid://bxvm61gf02dsb"]
 
 [ext_resource type="Texture2D" uid="uid://cqhk5h5k1rsue" path="res://art/TX Struct.png" id="2_aqk2v"]
 [ext_resource type="Texture2D" uid="uid://bxlple7lbpky5" path="res://art/TX Tileset Grass.png" id="2_tlwt5"]
 [ext_resource type="Texture2D" uid="uid://7ol10ffbgjdw" path="res://art/TX Tileset Wall.png" id="3_036b0"]
 [ext_resource type="Script" uid="uid://bgu1rce7vjdxu" path="res://player.cs" id="4_dwbse"]
+[ext_resource type="Texture2D" uid="uid://meberpg5vbqu" path="res://art/Dash.png" id="5_gbfbk"]
 [ext_resource type="Texture2D" uid="uid://875q5hos1uj5" path="res://art/walk.webp" id="5_pkg7o"]
 [ext_resource type="Texture2D" uid="uid://bymta8chr57lb" path="res://art/idle_down.webp" id="6_gbfbk"]
 
@@ -1084,6 +1085,38 @@ physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_pkg7o")
 sources/1 = SubResource("TileSetAtlasSource_gbfbk")
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_ioo17"]
+atlas = ExtResource("5_gbfbk")
+region = Rect2(0, 320, 48, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wse8f"]
+atlas = ExtResource("5_gbfbk")
+region = Rect2(48, 320, 48, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ic0uy"]
+atlas = ExtResource("5_gbfbk")
+region = Rect2(96, 320, 48, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k3n1d"]
+atlas = ExtResource("5_gbfbk")
+region = Rect2(144, 320, 48, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2o6r5"]
+atlas = ExtResource("5_gbfbk")
+region = Rect2(192, 320, 48, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_70uel"]
+atlas = ExtResource("5_gbfbk")
+region = Rect2(240, 320, 48, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hiqwa"]
+atlas = ExtResource("5_gbfbk")
+region = Rect2(288, 320, 48, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2u3nc"]
+atlas = ExtResource("5_gbfbk")
+region = Rect2(336, 320, 48, 64)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_ivps1"]
 atlas = ExtResource("5_pkg7o")
 region = Rect2(0, 0, 48, 64)
@@ -1246,6 +1279,35 @@ region = Rect2(336, 192, 48, 64)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_ivps1"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ioo17")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wse8f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ic0uy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k3n1d")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2o6r5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_70uel")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hiqwa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2u3nc")
+}],
+"loop": true,
+"name": &"dash_right",
+"speed": 9.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_ivps1")
@@ -1420,9 +1482,9 @@ z_index = 1
 position = Vector2(-1, -1)
 scale = Vector2(1.5, 1.5)
 sprite_frames = SubResource("SpriteFrames_ivps1")
-animation = &"idle"
+animation = &"dash_right"
 autoplay = "idle"
-frame_progress = 0.729075
+frame_progress = 0.10793
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
 z_index = 1

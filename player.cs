@@ -6,7 +6,12 @@ public partial class player : CharacterBody2D
 {
     [Export]
     public int Speed = 115; // How fast the player will move (pixels/sec).
-
+    public bool isDashing = false;
+    public float dashDuration = 0.4f;
+    public float speedDashDuration = 0.5f;
+    public Vector2 dashDirection = Vector2.Zero;
+    public float dashSpeed = 350f ;
+    public float dashTimeLeft = 0f ;
     private Vector2 _screenSize; // Size of the game window.
 
     public override void _Ready()
@@ -16,26 +21,88 @@ public partial class player : CharacterBody2D
 
     public override void _PhysicsProcess(double delta)
     {
-        var velocity = new Vector2(); // The player's movement vector.
+        
+        var velocity = new Vector2() ; // The player's movement vector.
         var animatedSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+
+        if (isDashing)
+        {
+            dashTimeLeft -= (float)delta;
+            if (dashTimeLeft <= 0)
+            {
+                isDashing = false;
+                animatedSprite.Animation = "idle";
+                Velocity = Vector2.Zero;
+            }
+            else
+            {
+                Velocity = dashDirection * (dashSpeed + Speed);
+                MoveAndSlide();
+                return;
+            }
+        }
+
+        velocity = Vector2.Zero;
+
+        if (Input.IsActionJustPressed("ui_accept")) // Dash button
+        {
+            // Determine current direction and dash that way
+            if (Input.IsActionPressed("ui_right")) dashDirection = Vector2.Right;
+            else if (Input.IsActionPressed("ui_left")) dashDirection = Vector2.Left;
+            else if (Input.IsActionPressed("ui_down")) dashDirection = Vector2.Down;
+            else if (Input.IsActionPressed("ui_up")) dashDirection = Vector2.Up;
+            else dashDirection = Vector2.Zero;
+
+            if (dashDirection != Vector2.Zero)
+            {
+                isDashing = true;
+                if (Input.IsActionPressed("ui_Shift"))
+                {
+                    dashTimeLeft = speedDashDuration;
+                    animatedSprite.SpeedScale = 1.25f;
+                }
+                else
+                {
+                    dashTimeLeft = dashDuration;
+                }
+                animatedSprite.FlipH = false;
+                animatedSprite.Animation = "dash_right"; // Replace with your animation name
+                Velocity = dashDirection * dashSpeed;
+                MoveAndSlide();
+                return;
+            }
+        }
 
         if (Input.IsActionPressed("ui_right"))
         {
-            velocity.X += 1;
+            if (Input.IsActionPressed("ui_accept"))
+            {
+                animatedSprite.FlipH = true;
+                animatedSprite.Animation = "dash_right";
+                velocity.X += 5;
+            }
+            else
+            {
+                animatedSprite.Animation = "left";
+                velocity.X += 1;
+            }
         }
 
-        if (Input.IsActionPressed("ui_left"))
+        else if (Input.IsActionPressed("ui_left"))
         {
+            animatedSprite.Animation = "right";
             velocity.X -= 1;
         }
 
-        if (Input.IsActionPressed("ui_down"))
+        else if (Input.IsActionPressed("ui_down"))
         {
+            animatedSprite.Animation = "down";
             velocity.Y += 1;
         }
 
-        if (Input.IsActionPressed("ui_up"))
+        else if (Input.IsActionPressed("ui_up"))
         {
+            animatedSprite.Animation = "up";
             velocity.Y -= 1;
         }
 
@@ -67,25 +134,24 @@ public partial class player : CharacterBody2D
 
         if (velocity.X > 0)
         {
-            animatedSprite.Animation = "left";
+            
             animatedSprite.FlipH = true;
             animatedSprite.FlipV = velocity.X < 0;
         }
         else if (velocity.X < 0)
         {
-            animatedSprite.Animation = "right";
+            
             animatedSprite.FlipH = true;
             animatedSprite.FlipV = velocity.X > 0;
         }
         else if (velocity.Y < 0)
         {
-            animatedSprite.Animation = "up";
+            
             animatedSprite.FlipH = true;
             animatedSprite.FlipV = velocity.Y > 0;
         }
         else if (velocity.Y > 0)
-        {
-            animatedSprite.Animation = "down";
+        { 
             animatedSprite.FlipV = velocity.Y < 0;
         }
 
@@ -97,6 +163,6 @@ public partial class player : CharacterBody2D
         {
             var collision = GetSlideCollision(i);
         }
-    }  
+    }
 }
 
